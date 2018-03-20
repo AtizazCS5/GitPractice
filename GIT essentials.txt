@@ -1,0 +1,7 @@
+http://githooks.com/
+Git clone, Git add, Git commit, Git reset, Git stash, Git push, Git branch, Git checkout, Git configure, Git merge, Git fetch
+
+The training will be comprised of basic command line instructions, necessary to carry out the daily/basic tasks. Setup: - Git command line setup - Git config - Git Repo Clone Git Basic Usage: - add - commit - push - pull/fetch Git Branching: - branch creation - switching - deletion Git Reset: - Discard changes? (hard/soft)
+
+
+Also look into files you want to ignore on GIT gitignore
