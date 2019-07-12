@@ -1,7 +1,222 @@
+GIT is a version control system. 
+
+GIT STORES CONFIGURATION OPTIONS IN THREE SEPARATE FILES, WHICH LETS YOU SCOPE OPTIONS TO INDIVIDUAL REPOSITORIES (LOCAL), USER (GLOBAL), 
+OR THE ENTIRE SYSTEM (SYSTEM):
+
+LOCAL: <repo>/.git/config – Repository-specific settings.
+GLOBAL: /.gitconfig – User-specific settings. This is where options set with the --global flag are stored.
+SYSTEM: $(prefix)/etc/gitconfig – System-wide settings.
+
+1. IN ADDITION TO CONFIGURING A REMOTE REPO URL, YOU MAY ALSO NEED TO SET GLOBAL GIT CONFIGURATION OPTIONS SUCH AS USERNAME, OR EMAIL. 
+THE GIT CONFIG COMMAND LETS YOU CONFIGURE YOUR GIT INSTALLATION (OR AN INDIVIDUAL REPOSITORY) FROM THE COMMAND LINE. 
+THIS COMMAND CAN DEFINE EVERYTHING FROM USER INFO, TO PREFERENCES, TO THE BEHAVIOR OF A REPOSITORY. SEVERAL COMMON CONFIGURATION OPTIONS ARE LISTED BELOW.
+DEFINE THE AUTHOR NAME TO BE USED FOR ALL COMMITS IN THE CURRENT REPOSITORY. TYPICALLY, YOU’LL WANT TO USE THE --GLOBAL FLAG TO SET CONFIGURATION OPTIONS 
+FOR THE CURRENT USER.
+
+vim ~/.gitconfig
+git config --global --edit
+
+To check the contents of the got configuration file.
+
+git config --global --list
+Lists out the configurations for global. You can use --local for flag.
+
+git config --global user.name "name"
+Define the author name to be used for all commits by the current user.
+
+Adding the --local option or not passing a config level option at all, will set the user.name for the current local repository.
+
+git config --local user.email "email"
+Define the author email to be used for all commits by the current user.
+
+git config --global alias.<alias-name> <git-command>
+Create a shortcut for a Git command. This is a powerful utility to create custom shortcuts for commonly used git commands. A simplistic example would be:
+
+git config --global alias.ci commit
+This creates a ci command that you can execute as a shortcut to git commit
+
+git config --system core.editor <editor>
+Define the text editor used by commands like git commit for all users on the current machine. 
+The <editor> argument should be the command that launches the desired editor (e.g., vi). 
+This example introduces the --system option. The --system option will set the configuration for the entire system,
+meaning all users and repos on a machine. For more detailed information on configuration levels visit the git config page.
+
+git config --global --edit
+Open the global configuration file in a text editor for manual editing
+
+THE THREE STAGES OF GIT ARE AS FOLLOWS:
+MODIFIED - Modify the repository artifacts
+STAGED - Add the changes to the staging area 
+COMMITTED - Commit the changes to the github database
+
+GIT SEES EVERY FILE IN YOUR WORKING COPY AS ONE OF THREE THINGS:
+TRACKED - a file which has been previously staged or committed;
+UNTRACKED - a file which has not been staged or committed; or
+IGNORED - a file which Git has been explicitly told to ignore.
+
+ALSO LOOK INTO FILES YOU WANT TO IGNORE (GITIGNORE).
+Ignored files are usually build artifacts and machine generated files that can be derived from your repository source or should otherwise not be committed.
+
+https://git-scm.com/docs/gitignore
+A collection of useful .gitignore templates
+https://github.com/github/gitignore
+https://github.com/github/gitignore/blob/master/Python.gitignore
+
+2. CREATE A NEW REPOSITORY ON THE COMMAND LINE
+echo "Place some content here" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/AtizazCS5/GitPractice.git
+git push -u origin master
+
+3. PUSH AN EXISTING REPOSITORY FROM THE COMMAND LINE
+Create the repository using your git account. DO NOT INITIALIZE readme.md or other files such as gitignore etc
+If you do that, then it will be one commit ahead. In order to resolve this problem, you will have to clone the directory then copy paste all the contents 
+into that directory then add and commit. git pull allows you to pull all changes from the git repository.
+
+The steps are as follows:
+git init
+Note: very useful when you do not want to track files such as env or binary files.
+touch .gitignore
+initialize gitignore with .gitignore templates
+Copy paste into the .gitignore file
+
+touch README.md
+Copy paste the contents into the README.md file
+
+Navigate to the directory and add all the files.
+git add .
+git commit -m "Commit message"
+git remote add origin https://github.com/AtizazCS5/GitPractice.git
+git push -u origin master
+
+4. CLONE AN EXISTING REPOSITORY FROM THE COMMAND LINE
+forking is when you clone a repository to your github account. This is a feature to allow collaboration. You can fork it from the UI.
+The project then can be cloned. The version of the project then belongs to you and you can cahnge as you like.
+git clone https://github.com/AtizazCS5/flask-restFUL-practice.git
+
+5. COMMITS INFORMATION AND BRANCHING STRATEGY
+Tells the status of the working directory and the staging area.
+git status (flags such as --long and -s)
+In order to undo add command, remove files from staging area
+git rm --cached (. or filename)
+displays committed snapshots or committ history
+git log (flags such as --oneline, git log commitid1..commitid2 (add --online after this optional), 
+git log filename (to get commits realted to that file), git log -n 3 (add --online after this optional) (last 3 commits))
+
+git checkout commitid
+EXPRESS COMMITT
+No need to used add 
+git commit -am "commit message"
+
+DETACHED HEAD STATE
+Look around, make exprimental changes etc, Commits are not retained , the repository or the branch is not impacted unless
+create branch from that detached state
+git checkout -b newbranch (Saves the new commit to the branch however when you checkout to master etc. That commit won't be visible)
+
+git checkout commitid filename (This changes the file to that particular commit. The repository reflects the changes.)
+git checkout HEAD filename (This undoes the changes)
+To undo latest commit safely
+git revert HEAD
+
+git reset (filename for only particular file) (Dangerous, can loose data, unstages the file)
+git reset --hard (unstages and removes all changes from repository)
+git reset commitid (Soft changes, unstages but keeps the modifications)
+git reset --hard commitid (Dangerous, unstages and deletes the modifications)
+
+git clean (-n to show a test run does not clean files but shows which files will be cleaned, -f to force path can be provided) (removes untracked files)
+git clean -df (removes untracked files and directories)
+git clean -xf (removes untracked files and all ignored files mentioned in .gitignore)
+
+BRANCHING
+git branch
+git branch branchname
+git checkout branchname
+
+PULLING AND PUSHING
+git pull origin (branchname such as master) allows developer to sync with remote repository.
+git push origin (branchname such as master) developer pushes his local changes or commits into local repository.
+
+git commit --amend
+It opens up the configured text editor. This time, however, it will be pre-filled with the commit message we previously entered.
+This indicates that we are not creating a new commit, but editing the last.
+
+6. DIFFERENCE IN FILES
+git diff
+
+7. THE GIT STASH COMMAND TAKES YOUR UNCOMMITTED CHANGES (BOTH STAGED AND UNSTAGED), SAVES THEM AWAY FOR LATER USE, AND THEN REVERTS THEM FROM YOUR WORKING COPY.
+You can reapply previously stashed changes with git stash pop
+Popping your stash removes the changes from your stash and reapplies them to your working copy.
+
+Alternatively, you can reapply the changes to your working copy and keep them in your stash with git stash apply
+This is useful if you want to apply the same stashed changes to multiple branches.
+
+Now that you know the basics of stashing, there is one caveat with git stash you need to be aware of: 
+by default Git won't stash changes made to untracked or ignored files.
+
+To provide a bit more context, it's good practice to annotate your stashes with a description, using git stash save "message"
+
+git stash list to show the list of stashes.
+
+git stash pop stash@{2} to save changes from list.
+
+8. COMMUNICATING WITH GIT USING SSH
+run commands in git bash
+generate public private keypair
+ssh-keygen -t dsa (rsa can be used but considered a weak key generation algorithm)
+ssh-keygen -t rsa -b 4096 -C "Key pair generation demo" (4096 bits, comments for distinguishing different key pair values.)
+SHA256 is a hash algorithm
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
+clip < ~/.ssh/id_rsa.pub
+Add ssh key to ssh keys in git UI.
+ssh -T git@github.com (To check connection)
+
+git remote -v (To check connection status with remote repository)
+git remote set-url origin git@github.com:AtizazCS5/flask-practice.git
+Switch back to https
+git remote set-url origin https://github.com/AtizazCS5/flask-practice.git
+
+Add a passphrase
+ssh-keygen -p
+
+CHANGE DEFAULT TEXT EDITOR FROM VIM TO SUBLIME TEXT
+git config --global core.editor "'C:\Program Files\Sublime Text 3\subl.exe' -w"
+git config --global --list
+
+GIT DIFF TOOL
+git config --global diff.tool p4merge
+git config --global difftool.p4merge.path "C:/Program Files/Perforce/p4merge.exe"
+git config --global difftool.prompt false
+git config --global merge.tool p4merge
+git config --global mergetool.p4merge.path "C:/Program Files/Perforce/p4merge.exe"
+git config --global mergetool.prompt false
+git config --global --list
+
+git diff
+git difftool
+
+git diff HEAD (difference between working directory and last commit)
+git difftool HEAD
+
+git diff --staged HEAD (difference between working directory and staging area)
+git difftool --staged HEAD
+git difftool --cached HEAD
+git difftool --cached 
+git difftool --staged
+
+git diff commitid HEAD
+git difftool commitid HEAD
+git difftool HEAD~1 HEAD (1 commit before HEAD)
+
+git diff commitid1 commitid2
+
+git difftool (shows each file difference one by one)
+git difftool -- filename (to show difference of single file)
+First argument local repository second argument git repository
+git diff master origin/master
+In local repository:
+git diff branch_name master
+
 http://githooks.com/
-Git clone, Git add, Git commit, Git reset, Git stash, Git push, Git branch, Git checkout, Git configure, Git merge, Git fetch
-
-The training will be comprised of basic command line instructions, necessary to carry out the daily/basic tasks. Setup: - Git command line setup - Git config - Git Repo Clone Git Basic Usage: - add - commit - push - pull/fetch Git Branching: - branch creation - switching - deletion Git Reset: - Discard changes? (hard/soft)
-
-
-Also look into files you want to ignore on GIT gitignore
